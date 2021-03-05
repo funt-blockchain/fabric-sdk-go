@@ -18,6 +18,8 @@ func GetSuiteByConfig(config core.CryptoSuiteConfig) (core.CryptoSuite, error) {
 	switch config.SecurityProvider() {
 	case "sw":
 		return sw.GetSuiteByConfig(config)
+	case "gmsw":
+		return sw.GetSuiteByConfig(config)
 	case "pkcs11":
 		return pkcs11.GetSuiteByConfig(config)
 	}

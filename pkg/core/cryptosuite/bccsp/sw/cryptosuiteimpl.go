@@ -21,9 +21,11 @@ var logger = logging.NewLogger("fabsdk/core")
 //GetSuiteByConfig returns cryptosuite adaptor for bccsp loaded according to given config
 func GetSuiteByConfig(config core.CryptoSuiteConfig) (core.CryptoSuite, error) {
 	// TODO: delete this check?
-	if config.SecurityProvider() != "sw" {
-		return nil, errors.Errorf("Unsupported BCCSP Provider: %s", config.SecurityProvider())
-	}
+	//if config.SecurityProvider() != "sw" {
+	//	return nil, errors.Errorf("Unsupported BCCSP Provider: %s", config.SecurityProvider())
+	//}
+
+	logger.Debugf("=====sdk bccsp cryptosuiteimpl.go=GetSuiteByConfig=config.SecurityProvider():%s\n", config.SecurityProvider())
 
 	opts := getOptsByConfig(config)
 	bccsp, err := getBCCSPFromOpts(opts)
@@ -45,7 +47,8 @@ func GetSuiteWithDefaultEphemeral() (core.CryptoSuite, error) {
 }
 
 func getBCCSPFromOpts(config *bccspSw.SwOpts) (bccsp.BCCSP, error) {
-	f := &bccspSw.SWFactory{}
+	//f := &bccspSw.SWFactory{}
+	f := &bccspSw.GMSWFactory{}
 
 	csp, err := f.Get(config)
 	if err != nil {
@@ -84,7 +87,7 @@ func getEphemeralOpts() *bccspSw.SwOpts {
 		SecLevel:   256,
 		Ephemeral:  false,
 	}
-	logger.Debug("Initialized ephemeral SW cryptosuite with default opts")
+	logger.Debug("Initialized ephemeral SW Or GMSW cryptosuite with default opts")
 
 	return opts
 }

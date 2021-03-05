@@ -9,9 +9,14 @@ package cryptoutil
 import (
 	"crypto"
 	"crypto/ecdsa"
-	"crypto/tls"
-	"crypto/x509"
+
+	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
+
 	"encoding/pem"
+	//"crypto/tls"
+	//"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"io"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/logging"
@@ -102,6 +107,8 @@ func X509KeyPair(certPEMBlock []byte, pk core.Key, cs core.CryptoSuite) (tls.Cer
 
 	switch x509Cert.PublicKey.(type) {
 	case *ecdsa.PublicKey:
+		cert.PrivateKey = &PrivateKey{cs, pk, x509Cert.PublicKey}
+	case *sm2.PublicKey:
 		cert.PrivateKey = &PrivateKey{cs, pk, x509Cert.PublicKey}
 	default:
 		return fail(errors.New("tls: unknown public key algorithm"))

@@ -8,7 +8,8 @@ package comm
 
 import (
 	"context"
-	"crypto/x509"
+	//"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"time"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/options"

@@ -33,9 +33,9 @@ func NewProviderFactory() *ProviderFactory {
 
 // CreateCryptoSuiteProvider returns a new default implementation of BCCSP
 func (f *ProviderFactory) CreateCryptoSuiteProvider(config core.CryptoSuiteConfig) (core.CryptoSuite, error) {
-	if config.SecurityProvider() != "sw" {
-		logger.Warnf("default provider factory doesn't support '%s' crypto provider", config.SecurityProvider())
-	}
+	//if config.SecurityProvider() != "sw" {
+	//	logger.Warnf("default provider factory doesn't support '%s' crypto provider", config.SecurityProvider())
+	//}
 	cryptoSuiteProvider, err := cryptosuiteimpl.GetSuiteByConfig(config)
 	return cryptoSuiteProvider, err
 }

@@ -21,7 +21,8 @@ const (
 	defEnabled       = true
 	defHashAlgorithm = "SHA2"
 	defLevel         = 256
-	defProvider      = "SW"
+	//defProvider      = "SW"
+	defProvider      = "GMSW"
 	defSoftVerify    = true
 )
 

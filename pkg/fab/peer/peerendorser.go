@@ -8,7 +8,8 @@ package peer
 
 import (
 	reqContext "context"
-	"crypto/x509"
+	//"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"regexp"
 	"time"
 
