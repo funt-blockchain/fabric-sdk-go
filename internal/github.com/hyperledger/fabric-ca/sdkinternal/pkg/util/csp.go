@@ -23,11 +23,14 @@ package util
 import (
 	"crypto"
 	"crypto/ecdsa"
-	"crypto/tls"
-	"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
 	"encoding/hex"
 	"encoding/pem"
 	"fmt"
+	//"crypto/tls"
+	//"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"io/ioutil"
 	"strings"
 
@@ -60,6 +63,13 @@ func getBCCSPKeyOpts(kr *csr.KeyRequest, ephemeral bool) (opts core.KeyGenOpts, 
 			return nil, errors.New("Unsupported ECDSA key size: 521")
 		default:
 			return nil, errors.Errorf("Invalid ECDSA key size: %d", kr.Size())
+		}
+	case "sm2":
+		switch kr.Size() {
+		case 256:
+			return factory.GetSM2KeyGenOpts(ephemeral), nil
+		default:
+			return nil, errors.Errorf("Invalid sm2 key size: %d", kr.Size())
 		}
 	default:
 		return nil, errors.Errorf("Invalid algorithm: %s", kr.Algo())
@@ -159,6 +169,16 @@ func ImportBCCSPKeyFromPEMBytes(keyBuff []byte, myCSP core.CryptoSuite, temporar
 			return nil, errors.WithMessage(err, fmt.Sprintf("Failed to convert ECDSA private key for '%s'", keyFile))
 		}
 		sk, err := myCSP.KeyImport(priv, factory.GetECDSAPrivateKeyImportOpts(temporary))
+		if err != nil {
+			return nil, errors.WithMessage(err, fmt.Sprintf("Failed to import ECDSA private key for '%s'", keyFile))
+		}
+		return sk, nil
+	case *sm2.PrivateKey:
+		priv, err := factory.PrivateKeyToDER(key.(*sm2.PrivateKey))
+		if err != nil {
+			return nil, errors.WithMessage(err, fmt.Sprintf("Failed to convert ECDSA private key for '%s'", keyFile))
+		}
+		sk, err := myCSP.KeyImport(priv, factory.GetSM2PrivateKeyImportOpts(temporary))
 		if err != nil {
 			return nil, errors.WithMessage(err, fmt.Sprintf("Failed to import ECDSA private key for '%s'", keyFile))
 		}

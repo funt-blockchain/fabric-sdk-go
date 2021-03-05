@@ -11,7 +11,8 @@ Please review third_party pinning scripts and patches for more details.
 package x509
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"fmt"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/core"

@@ -12,8 +12,8 @@ package x509
 
 import (
 	"encoding/hex"
-	"net/http"
-
+	//"net/http"
+	"github.com/Hyperledger-TWGC/net-go-gm/http"
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/core"
 
 	factory "github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric-ca/sdkpatch/cryptosuitebridge"

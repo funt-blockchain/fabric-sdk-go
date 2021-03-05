@@ -23,7 +23,10 @@ package util
 import (
 	"bytes"
 	"crypto/ecdsa"
-	"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
+
+	//"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"encoding/base64"
 	"encoding/json"
 	"encoding/pem"
@@ -35,7 +38,8 @@ import (
 	factory "github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric-ca/sdkpatch/cryptosuitebridge"
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/core"
 
-	"net/http"
+	//"net/http"
+	"github.com/Hyperledger-TWGC/net-go-gm/http"
 	"os"
 	"path"
 	"path/filepath"
@@ -149,7 +153,7 @@ func CreateToken(csp core.CryptoSuite, cert []byte, key core.Key, method, uri st
 	var token string
 
 	switch publicKey.(type) {
-	case *ecdsa.PublicKey:
+	case *ecdsa.PublicKey, *sm2.PublicKey:
 		token, err = GenECDSAToken(csp, cert, key, method, uri, body)
 		if err != nil {
 			return "", err
